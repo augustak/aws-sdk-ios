@@ -231,6 +231,7 @@ handleEventsForBackgroundURLSession:(NSString *)identifier
                  bucket:(NSString *)bucket
                     key:(NSString *)key
             contentType:(NSString *)contentType
+           userMetadata:(nullable NSDictionary *)userMetadata
              expression:(nullable AWSS3TransferUtilityUploadExpression *)expression
        completionHander:(nullable AWSS3TransferUtilityUploadCompletionHandlerBlock)completionHandler;
 
@@ -250,6 +251,7 @@ handleEventsForBackgroundURLSession:(NSString *)identifier
                  bucket:(NSString *)bucket
                     key:(NSString *)key
             contentType:(NSString *)contentType
+           userMetadata:(nullable NSDictionary *)userMetadata
              expression:(nullable AWSS3TransferUtilityUploadExpression *)expression
        completionHander:(nullable AWSS3TransferUtilityUploadCompletionHandlerBlock)completionHandler;
 

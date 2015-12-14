@@ -195,6 +195,7 @@ static AWSS3TransferUtility *_defaultS3TransferUtility = nil;
                  bucket:(NSString *)bucket
                     key:(NSString *)key
             contentType:(NSString *)contentType
+           userMetadata:(NSDictionary *)userMetadata
              expression:(AWSS3TransferUtilityUploadExpression *)expression
        completionHander:(AWSS3TransferUtilityUploadCompletionHandlerBlock)completionHandler {
     // Saves the data as a file in the temporary directory.
@@ -220,6 +221,7 @@ static AWSS3TransferUtility *_defaultS3TransferUtility = nil;
                      bucket:bucket
                         key:key
                 contentType:contentType
+               userMetadata:userMetadata
                  expression:expression
            completionHander:completionHandler];
 }
@@ -228,6 +230,7 @@ static AWSS3TransferUtility *_defaultS3TransferUtility = nil;
                  bucket:(NSString *)bucket
                     key:(NSString *)key
             contentType:(NSString *)contentType
+           userMetadata:(NSDictionary *)userMetadata
              expression:(AWSS3TransferUtilityUploadExpression *)expression
        completionHander:(AWSS3TransferUtilityUploadCompletionHandlerBlock)completionHandler {
     if (!expression) {
@@ -249,6 +252,14 @@ static AWSS3TransferUtility *_defaultS3TransferUtility = nil;
     getPreSignedURLRequest.minimumCredentialsExpirationInterval = AWSS3TransferUtilityTimeoutIntervalForResource;
     getPreSignedURLRequest.contentType = contentType;
     getPreSignedURLRequest.contentMD5 = expression.contentMD5;
+    
+    if (userMetadata) {
+        for (id key in userMetadata) {
+            NSString* metaKey = @"x-amz-meta-";
+            metaKey = [metaKey stringByAppendingString:key];
+            [getPreSignedURLRequest setValue:[userMetadata objectForKey:key] forRequestParameter:metaKey];
+        }
+    }
 
     [expression assignRequestParameters:getPreSignedURLRequest];
 
